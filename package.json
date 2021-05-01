@@ -1,0 +1,11 @@
+{
+  "name": "osbx",
+  "version": "0.0.1",
+  "description": "A simple & extensible tool to create osu storyboards!",
+  "main": "index.js",
+  "scripts": {
+    "tttt": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ponoyoshi",
+  "license": "MIT"
+}
