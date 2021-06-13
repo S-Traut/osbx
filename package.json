@@ -1,11 +1,44 @@
 {
-  "name": "osbx",
-  "version": "0.0.1",
-  "description": "A simple & extensible tool to create osu storyboards!",
-  "main": "index.js",
-  "scripts": {
-    "tttt": "echo \"Error: no test specified\" && exit 1"
+  "_from": "osbx@latest",
+  "_id": "osbx@0.0.24",
+  "_inBundle": false,
+  "_integrity": "sha512-vnnshAfETFJmMzH/HzLQrnvdwVh521tX80hdy3NQP3H7E8ERu3NRkZ6JdVEzAHqLwjxK25nApreOZFisgEERZA==",
+  "_location": "/osbx",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "osbx@latest",
+    "name": "osbx",
+    "escapedName": "osbx",
+    "rawSpec": "latest",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
-  "author": "ponoyoshi",
-  "license": "MIT"
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/osbx/-/osbx-0.0.22.tgz",
+  "_shasum": "6b4d0e355aa1efc0e2ff4e412648f4f490db5120",
+  "_spec": "osbx@latest",
+  "_where": "/home/straut/storage/projects/JS/osbx/sample",
+  "author": {
+    "name": "ponoyoshi"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A simple & extensible tool to create osu storyboards!",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib",
+  "name": "osbx",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "version": "0.0.28",
+  "dependencies": {
+    "@types/node": "^15.12.2",
+    "typescript": "^4.3.2"
+  }
 }
