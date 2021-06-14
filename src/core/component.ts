@@ -11,7 +11,10 @@ export default abstract class Component {
     constructor(plugins: Plugin[]) {
         this.RegisterPlugins(plugins);
         this.layers_id.set("Background", 0);
-        this.layers_id.set("Foreground", 1);
+        this.layers_id.set("Fail", 1);
+        this.layers_id.set("Pass", 2);
+        this.layers_id.set("Foreground", 3);
+        this.layers_id.set("Overlay", 4);
     }
 
     public Generate(): void { }

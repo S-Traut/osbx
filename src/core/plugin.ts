@@ -1,4 +1,4 @@
-import { Options } from "./utils";
+import { Layers, Options, Origins } from "./utils";
 import Sprite from "./sprite";
 import Component from "./component";
 
@@ -14,7 +14,7 @@ export default abstract class Plugin {
     * @param position (optional) The base position of the sprite in your screen.
     * @return Sprite
     */
-    public CreateSprite(path: string, layer = Options.LAYERS.background, origin = Options.ORIGINS.centre, position = Options.SCREEN_CENTER): Sprite {
+    public CreateSprite(path: string, layer = Layers.Background, origin = Origins.Centre, position = Options.SCREEN_CENTER): Sprite {
         let sprite = new Sprite(path, layer, origin, position);
         this.component?.sprites.push(sprite);
         return sprite;
