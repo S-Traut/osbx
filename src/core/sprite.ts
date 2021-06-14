@@ -47,10 +47,30 @@ export default class Sprite {
         );
     }
 
+
+    /**
+    * Modify the scale of your sprite, this apply changes on the X and Y separately.
+    * For example, you can scale your sprite only in X by not changing Y value.
+    * @param startTime In milliseconds
+    * @param startValue V2 - {x:0.5, y:0.1}
+    * @param easing https://easings.net/
+    * @return void
+    */
+    ScaleVec(startTime: number, startValue: V2): void;
+    ScaleVec(startTime: number, startValue: V2, endTime: number, endValue: V2): void;
+    ScaleVec(startTime: number, startValue: V2, endTime: number, endValue: V2, easing: number): void;
+    ScaleVec(startTime: number, startValue: V2, endTime?: number, endValue?: V2, easing?: number): void {
+        this.parameters.push(endTime == undefined ?
+            new Parameter("V", [easing ?? 0, startTime, endTime, startValue.x, startValue.y]):
+            new Parameter("V", [easing ?? 0, startTime, endTime, startValue.x, startValue.y, endValue?.x, endValue?.y])
+        );
+    }
+
     /**
     * Modify your sprite position on the screen, if you want to make your sprite move, specify a start and end Time, and a start and end value.
+    * @warning This function is not compatible with MoveX & MoveY, either only use MoveX | MoveY or Move.
     * @param startTime In milliseconds
-    * @param startValue V2 - {x:320,y:240}
+    * @param startValue A number
     * @param easing https://easings.net/
     * @return void
     */
@@ -65,8 +85,11 @@ export default class Sprite {
     }
 
     /**
-    * Scale manipulation for a Sprite.
-    * @output F,0,ST,ET,SV,EV
+    * Modify your sprite position only on the X axis.
+    * @warning This function is not compatible with Move, either only use MoveX | MoveY or Move.
+    * @param startTime In milliseconds
+    * @param startValue A number
+    * @param easing https://easings.net/
     * @return void
     */
     MoveX(startTime: number, startValue: number): void;
@@ -79,9 +102,13 @@ export default class Sprite {
         );
     }
 
+
     /**
-    * Scale manipulation for a Sprite.
-    * @output F,0,ST,ET,SV,EV
+    * Modify your sprite position only on the Y axis.
+    * @warning This function is not compatible with Move, either only use MoveX | MoveY or Move.
+    * @param startTime In milliseconds
+    * @param startValue A number
+    * @param easing https://easings.net/
     * @return void
     */
     MoveY(startTime: number, startValue: number): void;
@@ -95,23 +122,10 @@ export default class Sprite {
     }
 
     /**
-    * Scale manipulation for a Sprite.
-    * @output F,0,ST,ET,SV,EV
-    * @return void
-    */
-    ScaleVec(startTime: number, startValue: V2): void;
-    ScaleVec(startTime: number, startValue: V2, endTime: number, endValue: V2): void;
-    ScaleVec(startTime: number, startValue: V2, endTime: number, endValue: V2, easing: number): void;
-    ScaleVec(startTime: number, startValue: V2, endTime?: number, endValue?: V2, easing?: number): void {
-        this.parameters.push(endTime == undefined ?
-            new Parameter("V", [easing ?? 0, startTime, endTime, startValue.x, startValue.y]):
-            new Parameter("V", [easing ?? 0, startTime, endTime, startValue.x, startValue.y, endValue?.x, endValue?.y])
-        );
-    }
-
-    /**
-    * Scale manipulation for a Sprite.
-    * @output F,0,ST,ET,SV,EV
+    * Modify the rotation value of your sprite.
+    * @param startTime In milliseconds
+    * @param startValue Rotation value in radians (0 - 2PI)
+    * @param easing https://easings.net/
     * @return void
     */
     Rotate(startTime: number, startValue: number): void;
@@ -125,8 +139,10 @@ export default class Sprite {
     }
 
     /**
-    * Scale manipulation for a Sprite.
-    * @output F,0,ST,ET,SV,EV
+    * Modify the color value of your sprite. This will tweak the white values of every sprite pixels.
+    * @param startTime In milliseconds
+    * @param startValue Color - {r: 255, g: 255, b: 255}
+    * @param easing https://easings.net/
     * @return void
     */
     Color(startTime: number, startValue: Color): void;
@@ -140,17 +156,12 @@ export default class Sprite {
     }
 
     /**
-    * Scale manipulation for a Sprite.
-    * @output F,0,ST,ET,SV,EV
+    * Change the sprite fusion mode to additive https://en.wikipedia.org/wiki/Additive_color
+    * @param startTime In milliseconds
+    * @param endTime In milliseconds
     * @return void
     */
-    Additive(startTime: number, endTime: number): void;
-    Additive(startTime: number, endTime: number, easing: number): void;
-    Additive(startTime: number, endTime: number, easing?: number): void {
-        this.parameters.push(new Parameter("P", [easing ?? 0, startTime, endTime], "A"));
+    Additive(startTime: number, endTime: number): void {
+        this.parameters.push(new Parameter("P", [startTime, endTime], "A"));
     }
-}
-
-type decimal = {
-    value: number;
 }
