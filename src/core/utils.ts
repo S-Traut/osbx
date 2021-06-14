@@ -64,3 +64,15 @@ export interface V2 {
     y: number
 }
 
+export interface V3 {
+    x: number,
+    y: number,
+    z: number
+}
+
+export interface Color {
+    r: number,
+    g: number,
+    b: number,
+}
+

@@ -24,10 +24,6 @@ export default abstract class Component {
     }
 
     private async GenerateSprites(): Promise<string[]> {
-        fs.readdirSync(`dist`).forEach(file => {
-            fs.rmSync(`dist/${file}`);
-        });
-
         let layers_contents: Array<string> = new Array<string>();
         this.sprites.forEach(sprite => {
             const layer_id = this.layers_id.get(sprite.layer);
