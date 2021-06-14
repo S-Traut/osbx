@@ -20,7 +20,13 @@ export default abstract class Plugin {
         return sprite;
     }
 
-    public Initialize(component: Component) {
+    public CreateLoop(startTime: number, loop_time: number): Sprite {
+        let loop = new Sprite();
+        return loop;
+    }
+
+    public Initialize(component: Component): Plugin {
         this.component = component;
+        return this;
     }
 }

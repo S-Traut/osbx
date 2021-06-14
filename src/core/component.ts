@@ -50,13 +50,13 @@ export default abstract class Component {
         plugins.forEach(plugin => {
             const plugin_name = plugin.constructor.name;
             if (!this.component_plugins.get(plugin_name)) {
-                plugin.Initialize(this);
-                this.component_plugins.set(plugin_name, plugin);
+                this.component_plugins.set(plugin_name, plugin.Initialize(this));
             } else {
                 this.Warn(`Plugin ${plugin_name} already loaded!`);
             };
         });
     }
+
 
     public Log(message: string) {
         console.log(`INFO [${this.constructor.name}]: ${message}`);

@@ -3,13 +3,17 @@ import { Color, V2 } from "./utils"
 
 export default class Sprite {
 
+    type: string = "sprite";
     options: string | undefined;
     layer: string;
     parameters: Parameter[] = [];
 
-    constructor(path: string, layer: string, origin: string, position: V2) {
-        this.options = `Sprite,${layer},${origin},"${path}",${position.x},${position.y}`;
-        this.layer = layer;
+    constructor()
+    constructor(path: string, layer: string, origin: string, position: V2)
+    constructor(path?: string, layer?: string, origin?: string, position?: V2) {
+        if (!path) this.type = "loop";
+        this.options = `Sprite,${layer},${origin},"${path}",${position?.x},${position?.y}`;
+        this.layer = layer ?? "none";
     }
 
     /**
@@ -19,14 +23,15 @@ export default class Sprite {
     * @param easing https://easings.net/
     * @return void
     */
-    Fade(startTime: number, startValue: number): void;
-    Fade(startTime: number, startValue: number, endTime: number, endValue: number): void;
-    Fade(startTime: number, startValue: number, endTime: number, endValue: number, easing: number): void;
-    Fade(startTime: number, startValue: number, endTime?: number, endValue?: number, easing?: number): void {
-        this.parameters.push(endTime == undefined ?
-            new Parameter("F", [easing ?? 0, startTime, endTime, startValue]):
-            new Parameter("F", [easing ?? 0, startTime, endTime, startValue, endValue])
-        );
+    Fade(startTime: number, startValue: number): Parameter;
+    Fade(startTime: number, startValue: number, endTime: number, endValue: number): Parameter;
+    Fade(startTime: number, startValue: number, endTime: number, endValue: number, easing: number): Parameter;
+    Fade(startTime: number, startValue: number, endTime?: number, endValue?: number, easing?: number): Parameter {
+        let parameter = endTime == undefined ?
+            new Parameter("F", [easing ?? 0, startTime, endTime, startValue]) :
+            new Parameter("F", [easing ?? 0, startTime, endTime, startValue, endValue]);
+        this.parameters.push(parameter);
+        return parameter;
     }
 
     /**
@@ -163,5 +168,15 @@ export default class Sprite {
     */
     Additive(startTime: number, endTime: number): void {
         this.parameters.push(new Parameter("P", [startTime, endTime], "A"));
+    }
+
+    /**
+    * @todo comments
+    */
+    CreateLoop(startTime: number, loop_count: number, build: (loop_object: Sprite) => Sprite) {
+        this.parameters.push(new Parameter("L", [startTime, loop_count]));
+        build(new Sprite()).parameters.forEach(parameter => {
+            this.parameters.push(new Parameter(` ${parameter.type}`, parameter.options, parameter.p_value));
+        });
     }
 }

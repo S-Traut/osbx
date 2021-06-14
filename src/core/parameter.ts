@@ -1,4 +1,5 @@
 export default class Parameter {
+
     type: string | undefined;
     options: (number | undefined)[] = [];
     p_value: string | undefined;
