@@ -15,16 +15,17 @@ class Generator {
 
     public MakeStoryboard(components: Component[], beatmap_path: string, start_time: any) {
         this.BuildComponents(components, (component_contents) => {
-            fs.truncateSync("storyboard.osb", 0);
-            fs.appendFileSync("storyboard.osb", "[Events]\n");
-            fs.appendFileSync("storyboard.osb", "//Background and Video events\n");
+            const file_path = this.GetFileName(beatmap_path);
+            fs.truncateSync(file_path, 0);
+            fs.appendFileSync(file_path, "[Events]\n");
+            fs.appendFileSync(file_path, "//Background and Video events\n");
             component_contents.forEach(component_content => {
                 component_content.forEach((layer, key) => {
-                    fs.appendFileSync("storyboard.osb", this.layers_titles[key]);
-                    fs.appendFileSync("storyboard.osb", layer);
+                    fs.appendFileSync(file_path, this.layers_titles[key]);
+                    fs.appendFileSync(file_path, layer);
                 });
             });
-            fs.appendFileSync("storyboard.osb", "//Storyboard Sound Samples\n");
+            fs.appendFileSync(file_path, "//Storyboard Sound Samples\n");
             let end_time:any = new Date();
             console.log(`\nStoryboard successfully generated! [${end_time - start_time}ms] ${this.success_emoji[randomInt(6)]}`);
         });
@@ -42,6 +43,19 @@ class Generator {
                 }
             });
         });
+    }
+
+    private GetFileName(beatmap_path: string): string {
+        const files = fs.readdirSync(beatmap_path);
+        for (let i = 0; i < files.length; i++) {
+            if (/.osu$/?.test(files[i])) {
+                const filename = files[i].replace(/\[[A-Z 'a-z]+\].osu$/, "").trim();
+                const file_path = `${beatmap_path}/${filename}.osb`
+                fs.openSync(file_path, "w")
+                return file_path;
+            }
+        }
+        throw "ERROR: OSU FILE NOT FOUND IN THE BEATMAP FOLDER"
     }
 }
 

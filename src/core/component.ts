@@ -40,9 +40,15 @@ export default abstract class Component {
     }
 
     public GetPlugin(plugin_name: string): Plugin | undefined {
-        if(this.component_plugins != null) {
-            let plugin = this.component_plugins.get(plugin_name);
-            return plugin;
+        if (this.component_plugins != null) {
+            try {
+                let plugin = this.component_plugins.get(plugin_name);
+                if (plugin == undefined) throw new Error("Plugin not found exception");
+                return plugin;
+            } catch (error) {
+                this.ErrorLog(`Plugin ${plugin_name} not found!`)
+                throw error;
+            }
         }
     }
 
@@ -70,7 +76,7 @@ export default abstract class Component {
         console.log("\x1b[32m%s\x1b[0m", `🟢 [${this.constructor.name}]: ${message}`);
     }
 
-    public Error(message: string) {
+    public ErrorLog(message: string) {
         console.log("\x1b[31m%s\x1b[0m", `🔴 [${this.constructor.name}]: ${message}`);
     }
 }
