@@ -48,11 +48,14 @@ class Generator {
     private GetFileName(beatmap_path: string): string {
         const files = fs.readdirSync(beatmap_path);
         for (let i = 0; i < files.length; i++) {
-            if (/.osu$/?.test(files[i])) {
-                const filename = files[i].replace(/\[[A-Z 'a-z]+\].osu$/, "").trim();
-                const file_path = `${beatmap_path}/${filename}.osb`
-                fs.openSync(file_path, "w")
-                return file_path;
+            if (/\.osu$/?.test(files[i])) {
+                let filename = files[i].match(/(.*)(?<= \(.+\) \[)/);
+                if (filename) {
+                    const endpath = filename[0].slice(0, -1).trim();
+                    const file_path = `${beatmap_path}/${endpath}.osb`
+                    fs.openSync(file_path, "w")
+                    return file_path;
+                }
             }
         }
         throw "ERROR: OSU FILE NOT FOUND IN THE BEATMAP FOLDER"
