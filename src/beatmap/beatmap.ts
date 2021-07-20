@@ -1,4 +1,4 @@
-import Hitobject from "./hitobject";
+import { Hitobject } from "./objects";
 import { ParseBookmarks, ParseMetadata } from "./parser";
 
 export default class Beatmap {

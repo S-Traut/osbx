@@ -4,6 +4,7 @@ import fs from "fs";
 import Beatmap from "../beatmap/beatmap";
 import { ParseBeatmap } from "../beatmap/parser";
 import { match } from "assert/strict";
+import Globals from "./globals";
 
 export default abstract class Component {
 
@@ -56,14 +57,14 @@ export default abstract class Component {
     }
 
     public GetBeatmap(difficulty: string): Beatmap {
-        const package_file = require("../../../../package.json");
-        const beatmap_path = package_file.config.beatmap_path;
+        let globals = Globals.getInstance();
+        const beatmap_path = globals.config.beatmap_path;
         const files = fs.readdirSync(beatmap_path);
         for (let i = 0; i < files.length; i++) {
             if (/\.osu$/?.test(files[i])) {
                 const difficulty_name = files[i].match(/(?<=\) \[)(.*)(?=].osu)/);
                 if (difficulty_name && difficulty_name[0] == difficulty) {
-                    return ParseBeatmap(files[i]);
+                    return ParseBeatmap(`${beatmap_path}/${files[i]}`);
                 }
             }
         }
