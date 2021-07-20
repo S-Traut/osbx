@@ -1,6 +1,9 @@
 import Plugin from "./plugin";
 import Sprite from "./sprite";
 import fs from "fs";
+import Beatmap from "../beatmap/beatmap";
+import { ParseBeatmap } from "../beatmap/parser";
+import { match } from "assert/strict";
 
 export default abstract class Component {
 
@@ -50,6 +53,21 @@ export default abstract class Component {
                 throw error;
             }
         }
+    }
+
+    public GetBeatmap(difficulty: string): Beatmap {
+        const package_file = require("../../../../package.json");
+        const beatmap_path = package_file.config.beatmap_path;
+        const files = fs.readdirSync(beatmap_path);
+        for (let i = 0; i < files.length; i++) {
+            if (/\.osu$/?.test(files[i])) {
+                const difficulty_name = files[i].match(/(?<=\) \[)(.*)(?=].osu)/);
+                if (difficulty_name && difficulty_name[0] == difficulty) {
+                    return ParseBeatmap(files[i]);
+                }
+            }
+        }
+        throw "ERROR: BEATMAP DIFFICULTY NOT FOUND";
     }
 
     private RegisterPlugins(plugins: Plugin[]) {
