@@ -22,13 +22,13 @@ export function ParseBeatmap(filePath: string): Beatmap {
         const raw = lines[i].split(",");
         if(raw.length < 4) continue;
         const values = {
-            position: { x: parseInt(raw[0]), y: parseInt(raw[1]) },
+            position: { x: parseInt(raw[0]) + 64, y: parseInt(raw[1]) + 56 },
             startTime: parseInt(raw[2]),
             type: parseInt(raw[3]),
             hitsound: parseInt(raw[4])
         }
 
-        if((values.type & HitObjectFlags.NewCombo) != 0 || previousObject == undefined || !previousObject.hasFlag(HitObjectFlags.Spinner)) {
+        if((values.type & HitObjectFlags.NewCombo) != 0 || previousObject == undefined || previousObject.hasFlag(HitObjectFlags.Spinner)) {
             colorIncrement = (values.type >> 4) & 7;
             if ((values.type & HitObjectFlags.Spinner) == 0)
                 colorIncrement++;
