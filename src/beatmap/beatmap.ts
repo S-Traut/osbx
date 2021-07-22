@@ -1,14 +1,22 @@
-import { Hitobject } from "./objects";
-import { ParseBookmarks, ParseMetadata } from "./parser";
+import { Color } from "../core/utils";
+import { HitObject } from "./objects";
+import { ParseBookmarks, ParseColors, ParseMetadata } from "./parser";
 
 export default class Beatmap {
     difficulty!: Difficulty;
-    timing_points!: Array<TimingPoint>;
-    hitobjects!: Array<Hitobject>;
+    timing_points: Array<TimingPoint> = [];
+    hitobjects: Array<HitObject> = [];
     file: string;
+    colors: Array<Color> = [
+        {r: 255, g: 192, b: 0},
+        {r: 0, g: 202, b: 0},
+        {r: 18, g: 124, b: 255},
+        {r: 242, g: 24, b: 57},
+    ]
 
     constructor(file: string) {
         this.file = file;
+        this.colors = ParseColors(this.file) ?? this.colors;
     }
 
     public getMetadata(): Metadata {

@@ -1,6 +1,10 @@
 import { Layers, Options, Origins } from "./utils";
 import Sprite from "./sprite";
 import Component from "./component";
+import Beatmap from "../beatmap/beatmap";
+import Globals from "./globals";
+import fs from "fs";
+import { ParseBeatmap } from "../beatmap/parser";
 
 export default abstract class Plugin {
 
@@ -23,5 +27,20 @@ export default abstract class Plugin {
     public Initialize(component: Component): Plugin {
         this.component = component;
         return this;
+    }
+
+    public GetBeatmap(difficulty: string): Beatmap {
+        let globals = Globals.getInstance();
+        const beatmap_path = globals.config.beatmap_path;
+        const files = fs.readdirSync(beatmap_path);
+        for (let i = 0; i < files.length; i++) {
+            if (/\.osu$/?.test(files[i])) {
+                const difficulty_name = files[i].match(/(?<=\) \[)(.*)(?=].osu)/);
+                if (difficulty_name && difficulty_name[0] == difficulty) {
+                    return ParseBeatmap(`${beatmap_path}/${files[i]}`);
+                }
+            }
+        }
+        throw "ERROR: BEATMAP DIFFICULTY NOT FOUND";
     }
 }

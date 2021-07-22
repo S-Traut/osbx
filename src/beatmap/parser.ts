@@ -1,6 +1,7 @@
 import Beatmap, { Metadata } from "./beatmap";
 import fs from "fs";
-import { Hitobject } from "./objects";
+import { HitObject, HitObjectFlags } from "./objects";
+import { Color } from "../core/utils";
 
 export function ParseBeatmap(filePath: string): Beatmap {
 
@@ -10,18 +11,42 @@ export function ParseBeatmap(filePath: string): Beatmap {
     // Options: [0] Hitobjects [1] //
     const separation = file.split("[HitObjects]");
     const lines = separation[1].split('\n');
+    
+    let comboIndex = 0;
+    let colorIncrement = 0;
+    let colorIndex = 0;
+    let previousObject: HitObject | undefined;
 
-    let objects: Array<Hitobject> = [];
+    let objects: Array<HitObject> = [];
     for(let i = 0; i < lines.length; i++) {
-        const values = lines[i].split(",");
-        if(values.length = 5) {
-            let object: Hitobject = {
-                startTime: parseInt(values[2]),
-                position: { x: parseInt(values[0]), y: parseInt(values[1]) },
-                color: {r: 0, g: 0, b: 0} 
-            }
-            objects.push(object);
+        const raw = lines[i].split(",");
+        if(raw.length < 4) continue;
+        const values = {
+            position: { x: parseInt(raw[0]), y: parseInt(raw[1]) },
+            startTime: parseInt(raw[2]),
+            type: parseInt(raw[3]),
+            hitsound: parseInt(raw[4])
         }
+
+        if((values.type & HitObjectFlags.NewCombo) != 0 || previousObject == undefined || !previousObject.hasFlag(HitObjectFlags.Spinner)) {
+            colorIncrement = (values.type >> 4) & 7;
+            if ((values.type & HitObjectFlags.Spinner) == 0)
+                colorIncrement++;
+            colorIndex = (colorIndex + colorIncrement) % beatmap.colors.length;
+            comboIndex = 0;
+        }
+        comboIndex++;
+
+        const object = new HitObject(
+            values.startTime,
+            values.position,
+            beatmap.colors[colorIndex],
+            values.hitsound,
+            values.type,
+            comboIndex
+        );
+        previousObject = object;
+        objects.push(object);
     }
     beatmap.hitobjects = objects;
     return beatmap;
@@ -48,4 +73,24 @@ export function ParseMetadata(file: string): Metadata {
         creator: creator![0],
         difficulty: difficulty![0]
     }
+}
+
+export function ParseColors(file: string): Array<Color> | undefined {
+    if(file.match(/\[Colours\]/)) {
+        let colors: Array<Color> = [];
+        const matches = file.match(/(?<=Combo[0-9]+ : )(.*)/g);
+        if(matches) {
+            for(let i = 0; i < matches.length; i++) {
+                const raw = matches[i].split(',');
+                const color: Color = { 
+                    r: parseInt(raw[0]), 
+                    g: parseInt(raw[1]), 
+                    b: parseInt(raw[2]) 
+                };
+                colors.push(color);
+            }
+            return colors;
+        }
+    }
+    return undefined;
 }
