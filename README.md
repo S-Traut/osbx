@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://i.imgur.com/y0vazAq.png"><br>
-  <a href="#">WIKI (WIP)</a> | <a href="https://discord.gg/QZjD3yb">DISCORD</a> | <a href="https://osu.ppy.sh/community/forums/topics/1350033">OSU FORUM POST</a>
+  <a href="https://github.com/S-Traut/osbx/wiki">WIKI</a> | <a href="https://discord.gg/QZjD3yb">DISCORD</a> | <a href="https://osu.ppy.sh/community/forums/topics/1350033">OSU FORUM POST</a>
 </p>
 
 
