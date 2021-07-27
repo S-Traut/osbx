@@ -1,9 +1,13 @@
 <p align="center">
   <img src="https://i.imgur.com/y0vazAq.png"><br>
-  <a href="https://github.com/osbx/osbx/wiki">WIKI</a> | <a href="https://discord.gg/QZjD3yb">DISCORD</a> | <a href="https://osu.ppy.sh/community/forums/topics/1350033">OSU FORUM POST</a>
+  <a href="https://wiki.osbx.org">WIKI</a> | <a href="https://discord.gg/QZjD3yb">DISCORD</a> | <a href="https://osu.ppy.sh/community/forums/topics/1350033">OSU FORUM POST</a>
 </p>
 
-
+<div align="center">
+  <a href="https://pochiii.com"><img src="https://img.shields.io/badge/curated%20by-pochiii-000?style=for-the-badge" /></a>
+  <a href="https://www.npmjs.com/package/osbx"><img src="https://img.shields.io/npm/v/osbx?style=for-the-badge" /></a>
+  <a href="https://www.npmjs.com/package/osbx"><img src="https://img.shields.io/npm/dt/osbx?style=for-the-badge" /></a>
+</div>
 
 ## What is OSBX
 OSBX is a osu! storyboard file generator that is aiming for collaborative and modularity. With osbx you can code your storyboard project using typescript, a pre-processed language compiling into javascript. The back-end generation layer uses NodeJS queue system to generate storyboards in a fast way. OSBX essence is collaboration, and what make it very different (or planning to make it different) is that it will have a package manager included which will help people creating faster with a growing community.
