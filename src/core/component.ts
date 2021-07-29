@@ -5,7 +5,7 @@ import Configs, { getConfig } from "./configs";
 export default abstract class Component {
 
     sprites: Sprite[] = [];
-    component_plugins = new Map<string, Plugin>();
+    component_plugins = Array<Plugin>();
     layers_id = new Map<string, number>();
     config: Configs;
 
@@ -41,17 +41,8 @@ export default abstract class Component {
         return layers_contents;
     }
 
-    public GetPlugin(plugin_name: string): Plugin | undefined {
-        if (this.component_plugins != null) {
-            try {
-                let plugin = this.component_plugins.get(plugin_name);
-                if (plugin == undefined) throw new Error("Plugin not found exception");
-                return plugin;
-            } catch (error) {
-                this.ErrorLog(`Plugin ${plugin_name} not found!`)
-                throw error;
-            }
-        }
+    public GetPlugin<Plugin>(): Plugin {
+        return this.component_plugins.find(e => e instanceof Plugin) as unknown as Plugin;
     }
 
     private RegisterPlugins() {
@@ -59,7 +50,7 @@ export default abstract class Component {
         if(this.config.plugins_info && this.config.path_info) {
             for(const plugin of this.config.plugins_info) {
                 const element = require(`${this.config.path_info.project_path}/plugins/${plugin.name}`);
-                this.component_plugins.set(plugin.name, element.default.Initialize(this));       
+                this.component_plugins.push(element.default.Initialize(this));       
             }
         }
     }
