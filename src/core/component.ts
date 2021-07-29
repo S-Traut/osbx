@@ -1,14 +1,17 @@
 import Plugin from "./plugin";
 import Sprite from "./sprite";
+import Configs, { getConfig } from "./configs";
 
 export default abstract class Component {
 
     sprites: Sprite[] = [];
     component_plugins = new Map<string, Plugin>();
     layers_id = new Map<string, number>();
+    config: Configs;
 
-    constructor(plugins: Plugin[]) {
-        this.RegisterPlugins(plugins);
+    constructor() {
+        this.config = getConfig();
+        this.RegisterPlugins();
         this.layers_id.set("Background", 0);
         this.layers_id.set("Fail", 1);
         this.layers_id.set("Pass", 2);
@@ -51,17 +54,15 @@ export default abstract class Component {
         }
     }
 
-    private RegisterPlugins(plugins: Plugin[]) {
-        plugins.forEach(plugin => {
-            const plugin_name = plugin.constructor.name;
-            if (!this.component_plugins.get(plugin_name)) {
-                this.component_plugins.set(plugin_name, plugin.Initialize(this));
-            } else {
-                this.Warn(`Plugin ${plugin_name} already loaded!`);
-            };
-        });
+    private RegisterPlugins() {
+        //Get all plugins from config file
+        if(this.config.plugins_info && this.config.path_info) {
+            for(const plugin of this.config.plugins_info) {
+                const element = require(`${this.config.path_info.project_path}/plugins/${plugin.name}`);
+                this.component_plugins.set(plugin.name, element.default.Initialize(this));       
+            }
+        }
     }
-
 
     public Log(message: string) {
         console.log(`INFO [${this.constructor.name}]: ${message}`);

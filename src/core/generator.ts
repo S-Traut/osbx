@@ -1,6 +1,7 @@
 import { randomInt } from "crypto";
 import fs from "fs";
 import Component from "./component";
+import Configs, { getConfig } from "./configs";
 
 class Generator {
 
@@ -13,9 +14,10 @@ class Generator {
         "//Storyboard Layer 4 (Overlay)\n",
     ];
 
-    public MakeStoryboard(components: Component[], beatmap_path: string, start_time: any) {
+    public MakeStoryboard(components: Component[]) {
+        const config = getConfig();
         this.BuildComponents(components, (component_contents) => {
-            const file_path = this.GetFileName(beatmap_path);
+            const file_path = this.GetFileName(config.path_info.beatmap_path);
             fs.truncateSync(file_path, 0);
             fs.appendFileSync(file_path, "[Events]\n");
             fs.appendFileSync(file_path, "//Background and Video events\n");
@@ -27,7 +29,7 @@ class Generator {
             });
             fs.appendFileSync(file_path, "//Storyboard Sound Samples\n");
             let end_time:any = new Date();
-            console.log(`\nStoryboard successfully generated! [${end_time - start_time}ms] ${this.success_emoji[randomInt(6)]}`);
+            console.log(`\nStoryboard successfully generated! [${end_time - config.start_time}ms] ${this.success_emoji[randomInt(6)]}`);
         });
     }
 

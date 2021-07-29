@@ -2,7 +2,7 @@ import { Layers, Options, Origins } from "./utils";
 import Sprite from "./sprite";
 import Component from "./component";
 import Beatmap from "../beatmap/beatmap";
-import Globals from "./globals";
+import { getConfig } from "./configs";
 import fs from "fs";
 import { ParseBeatmap } from "../beatmap/parser";
 
@@ -30,8 +30,8 @@ export default abstract class Plugin {
     }
 
     public GetBeatmap(difficulty: string): Beatmap {
-        let globals = Globals.getInstance();
-        const beatmap_path = globals.config.beatmap_path;
+        const config = getConfig();
+        const beatmap_path = config.path_info.beatmap_path;
         const files = fs.readdirSync(beatmap_path);
         for (let i = 0; i < files.length; i++) {
             if (/\.osu$/?.test(files[i])) {
