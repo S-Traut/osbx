@@ -1,8 +1,13 @@
+
 export const Options = {
     SCREEN_CENTER: {
         x: 320,
         y: 240
-    }
+    },
+    SCREEN_LEFT: -107,
+    SCREEN_RIGHT: 747,
+    SCREEN_WIDTH: 864,
+    SCREEN_HEIGHT: 480,
 };
 
 export const Origins = {
@@ -76,3 +81,39 @@ export interface Color {
     b: number,
 }
 
+export function GetDecimals(number: number): number {
+    if(Math.floor(number.valueOf()) === number.valueOf()) return 0;
+    return number.toString().split(".")[1].length || 0;
+}
+
+export function random(min: number, max: number): number {
+    const value = Math.random() * (max - min) + min;
+    return max == 1 ? parseFloat(value.toFixed(2)) : parseFloat(value.toFixed(3));
+}
+
+export function randomInt(min: number, max: number) {
+    return Math.round(Math.random() * (max - min) + min);
+}
+
+export function randomFieldX() {
+    return randomInt(-107, 747);
+}
+
+export function randomFieldY() {
+    return randomInt(0, 480);
+}
+
+export function randomField(): V2 {
+    return {
+        x: randomFieldX(),
+        y: randomFieldY()
+    }
+}
+
+export function toMS(timestamp: string): number {
+    let output = timestamp.trim().split(' ')[0];
+    const values = output.split(':');
+    const minutes = parseInt(values[0]) * 60000;
+    const seconds = parseInt(values[1]) * 1000;
+    return parseInt(values[2]) + seconds + minutes;
+}

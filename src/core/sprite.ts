@@ -1,5 +1,5 @@
 import Parameter from "./parameter";
-import { Color, V2 } from "./utils"
+import { Color, GetDecimals, V2 } from "./utils"
 
 export default class Sprite {
 
@@ -12,7 +12,14 @@ export default class Sprite {
     constructor(path: string, layer: string, origin: string, position: V2)
     constructor(path?: string, layer?: string, origin?: string, position?: V2) {
         if (!path) this.type = "loop";
-        this.options = `Sprite,${layer},${origin},"${path}",${position?.x},${position?.y}`;
+        
+        // Set positions decimals
+        if(position) {
+            // Set positions decimals
+            const px = GetDecimals(position.x) > 3 ? position.x.toFixed(3) : position.x;
+            const py = GetDecimals(position.y) > 3 ? position.y.toFixed(3) : position.y;
+            this.options = `Sprite,${layer},${origin},"${path}",${px},${py}`;
+        }
         this.layer = layer ?? "none";
     }
 
@@ -166,15 +173,15 @@ export default class Sprite {
     * @param endTime In milliseconds
     * @return void
     */
-    Additive(startTime: number, endTime: number): void {
-        this.parameters.push(new Parameter("P", [startTime, endTime], "A"));
+    Additive(startTime: number, endTime: number, easing?: number): void {
+        this.parameters.push(new Parameter("P", [easing ?? 0, startTime, endTime], "A"));
     }
 
     /**
     * @todo comments
     */
     CreateLoop(startTime: number, loop_count: number, build: (loop_object: Sprite) => Sprite) {
-        this.parameters.push(new Parameter("L", [startTime, loop_count]));
+        this.parameters.push(new Parameter("L", [startTime, Math.round(loop_count)]));
         build(new Sprite()).parameters.forEach(parameter => {
             this.parameters.push(new Parameter(` ${parameter.type}`, parameter.options, parameter.p_value));
         });

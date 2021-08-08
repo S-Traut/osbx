@@ -2,13 +2,16 @@ import { Layers, Options, Origins } from "./utils";
 import Sprite from "./sprite";
 import Component from "./component";
 import Beatmap from "../beatmap/beatmap";
-import { getConfig } from "./configs";
+import Configs, { getConfig } from "./configs";
 import fs from "fs";
 import { ParseBeatmap } from "../beatmap/parser";
+import Logger from "./logger";
 
 export default abstract class Plugin {
 
     private component: Component | undefined;
+    public logger!: Logger;
+    public project_configs!: Configs
 
     /**
     * Creates a new sprite object, which can be used to add sprites in your storyboard.
@@ -24,8 +27,10 @@ export default abstract class Plugin {
         return sprite;
     }
 
-    public Initialize(component: Component): Plugin {
+    public Initialize(component: Component, logger: Logger, project_configs: Configs): Plugin {
         this.component = component;
+        this.logger = logger;
+        this.project_configs = project_configs;
         return this;
     }
 

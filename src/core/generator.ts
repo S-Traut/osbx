@@ -38,7 +38,7 @@ class Generator {
         components.forEach((component) => {
             component.Generate();
             component.Build().then(content => {
-                component.Success("Component successfully built!");
+                component.logger.Success("Component successfully built!");
                 contents.push(content);
                 if (contents.length == components.length) {
                     callback(contents);

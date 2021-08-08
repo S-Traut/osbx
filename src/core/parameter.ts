@@ -1,3 +1,5 @@
+import { GetDecimals } from "./utils";
+
 export default class Parameter {
 
     type: string | undefined;
@@ -13,14 +15,9 @@ export default class Parameter {
     GetLine(): string {
         let line = ` ${this.type}`;
         this.options.forEach(option => {
-            line += option == undefined ? "," : `,${this.GetDecimals(option) > 3 ? option.toFixed(3) : option}`;
+            line += option == undefined ? "," : `,${GetDecimals(option) > 3 ? option.toFixed(3) : option}`;
         });
         if (this.p_value != undefined) line += `,${this.p_value}`;
         return line;
-    }
-
-    private GetDecimals(number: number): number {
-        if(Math.floor(number.valueOf()) === number.valueOf()) return 0;
-        return number.toString().split(".")[1].length || 0;
     }
 }
