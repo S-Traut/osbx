@@ -64,12 +64,12 @@ export const Easings = {
 /**
 * Vector interface, used to store a 2D coordinate position [X,Y].
 */
-export interface V2 {
+export interface Vec2 {
     x: number,
     y: number
 }
 
-export interface V3 {
+export interface Vec3 {
     x: number,
     y: number,
     z: number
@@ -103,7 +103,7 @@ export function randomFieldY() {
     return randomInt(0, 480);
 }
 
-export function randomField(): V2 {
+export function randomField(): Vec2 {
     return {
         x: randomFieldX(),
         y: randomFieldY()

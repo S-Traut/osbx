@@ -1,5 +1,5 @@
 import Parameter from "./parameter";
-import { Color, GetDecimals, V2 } from "./utils"
+import { Color, GetDecimals, Vec2 } from "./utils"
 
 export default class Sprite {
 
@@ -9,8 +9,8 @@ export default class Sprite {
     parameters: Parameter[] = [];
 
     constructor()
-    constructor(path: string, layer: string, origin: string, position: V2)
-    constructor(path?: string, layer?: string, origin?: string, position?: V2) {
+    constructor(path: string, layer: string, origin: string, position: Vec2)
+    constructor(path?: string, layer?: string, origin?: string, position?: Vec2) {
         if (!path) this.type = "loop";
         
         // Set positions decimals
@@ -68,10 +68,10 @@ export default class Sprite {
     * @param easing https://easings.net/
     * @return void
     */
-    ScaleVec(startTime: number, startValue: V2): void;
-    ScaleVec(startTime: number, startValue: V2, endTime: number, endValue: V2): void;
-    ScaleVec(startTime: number, startValue: V2, endTime: number, endValue: V2, easing: number): void;
-    ScaleVec(startTime: number, startValue: V2, endTime?: number, endValue?: V2, easing?: number): void {
+    ScaleVec(startTime: number, startValue: Vec2): void;
+    ScaleVec(startTime: number, startValue: Vec2, endTime: number, endValue: Vec2): void;
+    ScaleVec(startTime: number, startValue: Vec2, endTime: number, endValue: Vec2, easing: number): void;
+    ScaleVec(startTime: number, startValue: Vec2, endTime?: number, endValue?: Vec2, easing?: number): void {
         this.parameters.push(endTime == undefined ?
             new Parameter("V", [easing ?? 0, startTime, endTime, startValue.x, startValue.y]):
             new Parameter("V", [easing ?? 0, startTime, endTime, startValue.x, startValue.y, endValue?.x, endValue?.y])
@@ -86,10 +86,10 @@ export default class Sprite {
     * @param easing https://easings.net/
     * @return void
     */
-    Move(startTime: number, startValue: V2): void;
-    Move(startTime: number, startValue: V2, endTime: number, endValue: V2): void;
-    Move(startTime: number, startValue: V2, endTime: number, endValue: V2, easing: number): void;
-    Move(startTime: number, startValue: V2, endTime?: number, endValue?: V2, easing?: number): void {
+    Move(startTime: number, startValue: Vec2): void;
+    Move(startTime: number, startValue: Vec2, endTime: number, endValue: Vec2): void;
+    Move(startTime: number, startValue: Vec2, endTime: number, endValue: Vec2, easing: number): void;
+    Move(startTime: number, startValue: Vec2, endTime?: number, endValue?: Vec2, easing?: number): void {
         this.parameters.push(endTime == undefined ?
             new Parameter("M", [easing ?? 0, startTime, endTime, startValue.x, startValue.y]):
             new Parameter("M", [easing ?? 0, startTime, endTime, startValue.x, startValue.y, endValue?.x, endValue?.y])

@@ -1,4 +1,4 @@
-import { Color, V2 } from "../core/utils";
+import { Color, Vec2 } from "../core/utils";
 
 export enum HitObjectFlags {
     Circle = 1 << 0,        // 1
@@ -20,7 +20,7 @@ export enum Hitsounds {
 
 export class HitObject {
     startTime: number;
-    position: V2;
+    position: Vec2;
     color: Color;
     comboIndex: number;
     slider_nodes: Array<SliderNode> | undefined
@@ -28,7 +28,7 @@ export class HitObject {
     private hitsound: number;
     private type: number;
 
-    constructor(startTime: number, position: V2, color: Color, hitsound: number, type: number, comboIndex: number) {
+    constructor(startTime: number, position: Vec2, color: Color, hitsound: number, type: number, comboIndex: number) {
         this.startTime = startTime;
         this.position = position;
         this.color = color;
