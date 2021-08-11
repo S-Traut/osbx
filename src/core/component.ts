@@ -14,7 +14,6 @@ export default abstract class Component {
     constructor() {
         this.logger = new Logger(this.constructor.name);
         this.project_config = getConfig();
-        this.RegisterPlugins();
         this.layers_id.set("Background", 0);
         this.layers_id.set("Fail", 1);
         this.layers_id.set("Pass", 2);
@@ -45,24 +44,15 @@ export default abstract class Component {
     }
 
     public GetPlugin<T extends Plugin>(pluginClass: {new (): T}): T {
-        return this.component_plugins.find(e => e instanceof pluginClass) as T;
-    }
-
-    private RegisterPlugins() {
-        //Get all plugins from config file
-        if(this.project_config.plugins_info && this.project_config.path_info) {
-            for(const plugin of this.project_config.plugins_info) {
-                const element = require(`${this.project_config.path_info.project_path}/plugins/${plugin.name}`);
-                this.component_plugins.push(element.default.Initialize(this, new Logger(`${this.constructor.name} : ${plugin.name}`), this.project_config));       
-            }
+        for(let i = 0; i < this.component_plugins.length; i++) {
+            if(this.component_plugins[i] instanceof pluginClass)
+                return this.component_plugins[i] as T;
         }
-    }
-
-    
-}
-
-class Factory {
-    create<T>(type: (new () => T)): T {
-        return new type();
+        
+        // If plugin not found, create and register one
+        const plugin = new pluginClass;
+        plugin.Initialize(this, this.logger, this.project_config);
+        this.component_plugins.push(plugin);
+        return plugin;
     }
 }
