@@ -2,10 +2,15 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES6",
+    "outDir": "lib",    
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "sourceMap": true,
     "strict": true,
-    "noImplicitOverride": true
+    "noImplicitOverride": true,
+    "declaration": true, 
+    "declarationMap": true,    
+    "esModuleInterop": true,   
+    "skipLibCheck": true,    
   }
 }
