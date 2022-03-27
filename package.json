@@ -1,6 +1,6 @@
 {
   "name": "osbx",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -11,7 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "dotosb": "^1.6.0",
-    "dotosu": "^1.0.1",
+    "dotosu": "^1.1.2",
     "srandom": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23"
   }
 }

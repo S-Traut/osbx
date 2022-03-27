@@ -1,5 +1,30 @@
 import * as dotosb from "dotosb";
 
+export type Position = {
+  x: number,
+  y: number,
+}
+
+export enum Layers {
+  Background = "Background", 
+  Fail = "Fail",
+  Pass = "Pass",
+  Foreground = "Foreground", 
+  Overlay = "Overlay",
+}
+
+export enum Origins {
+  TopLeft = "TopLeft",
+  TopCentre = "TopCentre",
+  TopRight = "TopRight",
+  CentreLeft = "CentreLeft",
+  Centre = "Centre",
+  CentreRight = "CentreRight",
+  BottomLeft = "BottomLeft",
+  BottomCentre = "BottomCentre",
+  BottomRight = "BottomRight",
+}
+
 export default class Sprite extends dotosb.Sprite {
 
   public fade(times: number[] | number, values: number[] | number): void;

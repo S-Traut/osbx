@@ -1,12 +1,13 @@
 import { Storyboard } from "dotosb";
 import Plugin from "./plugin";
+import Project, { Configuration } from "./project";
 
 interface ComponentClass<T> {
   new(storyboard: Storyboard, level: number, parent: Component): T;
 }
 
 interface PluginClass<T> {
-  new(storyboard: Storyboard): T;
+  new(storyboard: Storyboard, project: Project): T;
 }
 
 export default class Component {
@@ -17,6 +18,8 @@ export default class Component {
   private readonly plugins: Plugin[];
   private readonly storyboard: Storyboard;
   private readonly layers: Function[];
+  
+  private project: Project | undefined;
 
   constructor(storyboard: Storyboard, level = 0, parent?: Component) {
     this.components = [];
@@ -45,6 +48,27 @@ export default class Component {
 
   public addLayer(callback: Function) {
     this.layers.push(callback);
+  }
+
+  public setProject(configuration: Configuration) {
+    const project = new Project(configuration);
+    this.project = project;
+  }
+
+  public getMain(): Component {
+    if(!this.parent) 
+      return this;
+     
+    return this.parent.getMain();
+  }
+
+  public getProject(): Project {
+    const main = this.getMain();
+    if(!main.project) {
+      console.error("No configuration detected on main");
+    }
+    
+    return main.project!;
   }
 
   public addComponent<T extends Component>(component: ComponentClass<T>) {
@@ -76,6 +100,6 @@ export default class Component {
         return element as T;
     }
 
-    return new plugin(this.storyboard);
+    return new plugin(this.storyboard, this.getProject());
   }
 }
