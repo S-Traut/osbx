@@ -1,8 +1,8 @@
 import { SpriteOptions, Storyboard, Sprite as dotosb_sprite } from "dotosb";
 import { HitObject, Position } from "dotosu";
 import Logger from "./logger";
-import Project, { Configuration } from "./project";
-import Sprite from "./sprite";
+import Project from "./project";
+import Sprite, { Layers, Origins } from "./sprite";
 
 export default class Plugin {
   
@@ -10,13 +10,13 @@ export default class Plugin {
   public storyboard: Storyboard;
   public project: Project;
 
-  constructor(storyboard: Storyboard, project: Project) {
+  constructor(storyboard: Storyboard, project: Project, logger: Logger) {
     this.storyboard = storyboard;
     this.project = project;
-    this.logger = new Logger();
+    this.logger = logger;
   }
 
-  public createSprite(path: string, layer?: string, origin?: string,  position?: Position): Sprite {
+  public createSprite(path: string, layer?: Layers, origin?: Origins,  position?: Position): Sprite {
     const options: SpriteOptions = {
       x: position?.x || 320,
       y: position?.y || 240,
