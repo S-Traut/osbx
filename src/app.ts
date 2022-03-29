@@ -23,15 +23,17 @@ function getProjectConfiguration(logger: Logger): Configuration {
 }
 
 export default class osbx {
+  
   static create(main_component: typeof Component): void {
     console.clear();
     console.log('\x1b[40m\x1b[36m', ' BUILD ', '\x1b[0m');  //cyan
     const storyboard = new Storyboard();
     const main = new main_component(storyboard);
     const logger = new Logger(main);
-    main.setProject(getProjectConfiguration(logger));
+    const configuration = getProjectConfiguration(logger);
+    main.setProject(configuration);
     main.generate();
-    storyboard.write('out.osb', true);
+    storyboard.write(`${configuration.beatmap_path}/out.osb`, true);
   }
 
 
