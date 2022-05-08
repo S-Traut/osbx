@@ -4,6 +4,7 @@ import path from "path";
 
 export type Configuration = {
   beatmap_path: string;
+  beatmap_name: string;
 }
 
 interface BeatmapCallback {
@@ -49,5 +50,11 @@ export default class Project {
     throw "Beatmap not found!"
   }
 
-  getConfiguration = () => this.configuration;
+  getConfiguration(): Configuration { 
+    return this.configuration 
+  };
+
+  getBeatmapPath(): string { 
+    return this.configuration.beatmap_path 
+  };
 }

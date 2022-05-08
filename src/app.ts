@@ -18,7 +18,8 @@ function getProjectConfiguration(logger: Logger): Configuration {
   const JSON = require(configuration_file);
 
   return {
-    beatmap_path: JSON.beatmap_path
+    beatmap_path: JSON.beatmap_path,
+    beatmap_name: JSON.beatmap_name,
   };
 }
 
@@ -33,7 +34,7 @@ export default class osbx {
     const configuration = getProjectConfiguration(logger);
     main.setProject(configuration);
     main.generate();
-    storyboard.write(`${configuration.beatmap_path}/out.osb`, true);
+    storyboard.write(`${configuration.beatmap_path}/${configuration.beatmap_name}.osb`, true);
   }
 
 
