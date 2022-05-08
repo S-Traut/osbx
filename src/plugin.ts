@@ -17,9 +17,17 @@ export default class Plugin {
   }
 
   public createSprite(path: string, layer?: Layers, origin?: Origins,  position?: Position): Sprite {
+
+    if (!position) {
+      position = {
+        x: 320,
+        y: 240,
+      }
+    }
+
     const options: SpriteOptions = {
-      x: position?.x || 320,
-      y: position?.y || 240,
+      x: position.x,
+      y: position.y,
       origin: origin || "Centre",
       layer: layer || "Background",
     }
